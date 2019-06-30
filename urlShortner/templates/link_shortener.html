@@ -1,0 +1,21 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block staticfiles %}
+<script src="{% static 'js/main.js' %}"></script>
+{% endblock %}
+{% block content_title %}{% if title %}<h1>{{ title }}</h1>{% endif %}{% endblock %}
+{% block content %}
+    <form name="link_shorten_form" method='POST' action="{% url 'short' %}" novalidate>
+    {% csrf_token %}
+        <div class="form-group">
+            <input id="long_url_link" name="long_url_link" type="text" class="form-control">
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Submit" onclick="submitForm(link_shorten_form)">
+        </div>
+    </form>
+    <div class="form-group">
+        <input id="short_url_link" name="short_url_link" type="text" value="{% if short_url %}{{short_url}} {% endif %}" class="form-control">
+    </div>
+
+{% endblock %}
