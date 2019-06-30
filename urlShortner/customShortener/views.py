@@ -34,11 +34,15 @@ def short(request):
             url_link = urlObject.getShortenedURL()
             urlObject.shortUrl = url_link
             urlObject.save()
-        print(request.method)
-        domain = 'jk'
+        # print(request.method)
+        domain = request.META['HTTP_HOST']
+        print(domain)
         url_link = domain+'/'+url_link
         response = {
-            'short_url': url_link
+            'long_url_link':request.POST['long_url_link'],
+            'short_url': url_link,
+            'title': title,
+            'branding_name': "Link Shortener"
         }
     else:
         return render(request, 'link_shortener.html', context)
