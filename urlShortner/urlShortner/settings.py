@@ -40,7 +40,8 @@ INSTALLED_APPS = [
 ] + [
     'customShortener',
     'rest_framework',
-    'rest_framework_swagger',
+    'rest_framework.authtoken',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -84,43 +85,16 @@ DATABASES = {
     }
 }
 
-# LOGIN_URL = 'rest_framework:login'
-# LOGOUT_URL = 'rest_framework:logout'
-SWAGGER_SETTINGS = {
-
-    'USE_SESSION_AUTH': False,
-
-    'api_version': '0.1',
-
-    'enabled_methods': [
-
-        'get',
-
-        'post',
-
-    ],
-
-    'SECURITY_DEFINITIONS': {
-
-        "api_key": {
-
-            "type": "apiKey",
-
-            "name": "Authorization",
-
-            "in": "header"
-
-          },
-
-    },
-
-}
-
 REST_FRAMEWORK = {
     'DEFAULT_PARSER_CLASSES': (
         'rest_framework.parsers.JSONParser',
         'rest_framework.parsers.FormParser',
         'rest_framework.parsers.MultiPartParser',
+    ),'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        # 'drf_yasg.renderers.SwaggerJSONRenderer',
+    ),'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',  # <-- And here
     ),
 }
 # Password validation

@@ -13,3 +13,4 @@ lib64
 venv/
 share/
 staticfiles/
+.vscode/

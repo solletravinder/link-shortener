@@ -16,17 +16,38 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path, include
 from customShortener import views
-from rest_framework import routers
-router = routers.DefaultRouter()
-router.register(r'', views.LinkShortenerAPIView, '')
+from rest_framework import routers, permissions, authentication
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+from rest_framework.authtoken.views import obtain_auth_token
+# router = routers.DefaultRouter()
+# router.register(r'', views.LinkShortenerAPIView, '')
+
+schema_view = get_schema_view(
+   openapi.Info(
+      title="Snippets API",
+      default_version='v1',
+      description="Test description",
+      terms_of_service="https://www.google.com/policies/terms/",
+      contact=openapi.Contact(email="contact@snippets.local"),
+      license=openapi.License(name="BSD License"),
+   ),
+   public=True,
+   permission_classes=(permissions.AllowAny,),
+   authentication_classes=(authentication.TokenAuthentication,),
+)
 
 urlpatterns = [
     re_path(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('admin/', admin.site.urls),
-    re_path(r'swagger/', views.schema_view),
-    re_path(r'shorten/', views.short, name="short"),
+    re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    re_path(r'^$', views.short, name="short"),
     re_path(r'(?P<url>\w+)/', views.expand, name="expand"),
-    # re_path(r'api/link_shorten/',views.link_shorten),
-    # re_path(r'api/link_expander/',views.link_expander),
-    re_path(r'api/', include(router.urls))
+    re_path(r'api/link_shorten/',views.link_shorten, name="link_shorten"),
+    re_path(r'api/link_expander/',views.link_expander, name="link_expander"),
+    path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
 ]
+# re_path(r'api/', include(router.urls))
+
