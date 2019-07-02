@@ -1,5 +1,8 @@
 {% extends 'admin/base_site.html' %}
 {% load static %}
+{% block extrahead %}
+<link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+{% endblock %}
 {% block branding %}
 {{ branding_name }}
 {% endblock %}
