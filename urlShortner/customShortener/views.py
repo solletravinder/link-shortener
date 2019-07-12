@@ -11,10 +11,7 @@ def expand(request, url):
     if len(url) == 7:
         if CustomUrl.objects.filter(shortUrl = url).exists():
             urlObject = CustomUrl.objects.get(shortUrl = url)
-            if 'https://' in urlObject.longUrl or 'http://' in urlObject.longUrl:
-                return HttpResponseRedirect(urlObject.longUrl)
-            else:
-                return HttpResponseRedirect("http://"+urlObject.longUrl)
+            return HttpResponseRedirect(urlObject.longUrl)
             # return HttpResponseRedirect("https://www.dropbox.com")
         else:
             return render(request, '404_notfound.html', {})
