@@ -1,0 +1,78 @@
+<!-- {% extends 'index.html' %}
+{% load static %}
+{% block content_title %}
+    {% if title %}
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand pb-3" style="text-transform: capitalize !important;" href="#">{{ title }}</a>
+        </div>
+      </nav>
+    {% endif %}
+{% endblock %}
+{% block content %}
+<div class="container">
+    <br/>
+    <div class="row pb-5 mt-5 bg-dark" style="color:white;">
+        <form class="col-lg-12 mt-5" name="link_shorten_form" method='POST' action="{% url 'short' %}" novalidate>
+            {% csrf_token %}
+            <div class="mb-3 col-md-3">
+                <label for="long_url_link" class="form-label">Enter URL here</label>
+                <input type="text" class="form-control" id="long_url_link" name="long_url_link">
+            </div>
+            <div class="mb-3 col-md-3">
+                <input class="btn btn-primary" type="submit" value="Submit">
+            </div>
+        </form>
+        <br>
+        <div class="col-lg-12">
+            {% if short_url %}
+            <label>Your Short Link for {{long_url_link}} is: &nbsp;&nbsp; <b>{{short_url}}</b></label>
+            <br />
+            <label>(Try Pasting the link in the new tab.)</b></label>
+
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %} -->
+
+{% extends 'index.html' %}
+{% load static %}
+{% block content_title %}
+    {% if title %}
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#" style="text-transform: capitalize !important;">{{ title }}</a>
+        </div>
+    </nav>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12 col-md-8 offset-md-2">
+            <div class="card bg-dark text-white border-0">
+                <div class="card-body">
+                    <form name="link_shorten_form" method='POST' action="{% url 'short' %}" novalidate>
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="long_url_link" class="form-label">Enter URL here</label>
+                            <input type="text" class="form-control" id="long_url_link" name="long_url_link" placeholder="https://example.com">
+                        </div>
+                        <div class="mb-3">
+                            <button class="btn btn-primary" type="submit">Submit</button>
+                        </div>
+                    </form>
+                    {% if short_url %}
+                    <div class="alert alert-info mt-4">
+                        <strong>Your Short Link for <a href="{{ long_url_link }}" target="_blank">{{ long_url_link }}</a> is: </strong>
+                        <a href="{{ short_url }}" class="alert-link" target="_blank">{{ short_url }}</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

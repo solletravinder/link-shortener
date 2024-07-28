@@ -1,0 +1,38 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content_title %}
+    {% if title %}
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" style="text-transform: capitalize !important;" href="#">{{ title }}</a>
+        </div>
+    </nav>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <br/>
+    <div class="row justify-content-center pb-5 mt-5 bg-dark text-white">
+        <form class="col-12 col-md-8 col-lg-6 mt-5" name="link_shorten_form" method='POST' action="{% url 'short' %}" novalidate>
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="long_url_link" class="form-label">Enter URL here</label>
+                <input type="text" class="form-control" id="long_url_link" name="long_url_link" required>
+            </div>
+            <div class="mb-3">
+                <input class="btn btn-primary w-100" type="submit" value="Submit">
+            </div>
+        </form>
+        <div class="col-12 mt-4">
+            {% if short_url %}
+            <div class="alert alert-success">
+                Your Short Link for <strong>{{ long_url_link }}</strong> is: <a href="{{ short_url }}" target="_blank"><strong>{{ short_url }}</strong></a>
+                <br>
+                <small>(Try pasting the link in a new tab.)</small>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
